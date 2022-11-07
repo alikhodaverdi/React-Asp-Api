@@ -7,5 +7,6 @@
 
         public DateTime BrithDate { get; set; }
 
+        public ICollection<Review> Reviews { get; set; }
     }
 }
