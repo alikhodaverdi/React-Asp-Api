@@ -3,7 +3,7 @@ using React_Asp_Api.Models;
 
 namespace React_Asp_Api.Data
 {
-    public class DataContext :DbContext
+    public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -20,18 +20,31 @@ namespace React_Asp_Api.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Reviewer> Reviewers { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PokemonCategory>()
-                .HasKey(pc => new {pc.PokemonId,pc.CategoryId});
+                .HasKey(pc => new { pc.PokemonId, pc.CategoryId });
             modelBuilder.Entity<PokemonCategory>()
                 .HasOne(p => p.Pokemon)
-                .WithMany(pc=>pc.PokemonCategories)
-                .HasForeignKey(c=>c.PokemonId);
+                .WithMany(pc => pc.PokemonCategories)
+                .HasForeignKey(c => c.PokemonId);
             modelBuilder.Entity<PokemonCategory>()
-              .HasOne(p => p.Category)
-              .WithMany(pc => pc.PokemonCategories)
-              .HasForeignKey(c => c.CategoryId);
+                .HasOne(p => p.Category)
+                .WithMany(pc => pc.PokemonCategories)
+                .HasForeignKey(c => c.CategoryId);
+
+            modelBuilder.Entity<PokemonOwner>()
+                .HasKey(po => new { po.PokemonId, po.OwnerId });
+            modelBuilder.Entity<PokemonOwner>()
+                .HasOne(p => p.Pokemon)
+                .WithMany(pc => pc.PokemonOwner)
+                .HasForeignKey(c => c.PokemonId);
+            modelBuilder.Entity<PokemonOwner>()
+                .HasOne(p => p.Owner)
+                .WithMany(pc => pc.PokemonOwners)
+                .HasForeignKey(c => c.OwnerId);
+
 
         }
 
